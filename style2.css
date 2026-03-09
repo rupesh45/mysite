@@ -88,6 +88,7 @@ a { text-decoration: none; color: inherit; }
   border-bottom: 1px solid var(--card-border);
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: 0.6rem 1.2rem;
   font-family: var(--mono);
