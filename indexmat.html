@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rupesh Kadam — Angular Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #020c06;
+      --bg2: #040f08;
+      --surface: rgba(0,255,80,0.04);
+      --surface2: rgba(0,255,80,0.08);
+      --border: rgba(0,255,80,0.18);
+      --text: #c8ffd4;
+      --text-dim: #6aad7e;
+      --accent: #00ff50;
+      --accent2: #00cc40;
+      --glow: rgba(0,255,80,0.25);
+      --glow2: rgba(0,255,80,0.08);
+      --header-bg: rgba(2,12,6,0.92);
+    }
+    [data-theme="light"] {
+      --bg: #f0fff4;
+      --bg2: #e8fef0;
+      --surface: rgba(0,120,40,0.06);
+      --surface2: rgba(0,120,40,0.12);
+      --border: rgba(0,120,40,0.2);
+      --text: #0a2e14;
+      --text-dim: #2d7a46;
+      --accent: #007a28;
+      --accent2: #005a1c;
+      --glow: rgba(0,120,40,0.2);
+      --glow2: rgba(0,120,40,0.06);
+      --header-bg: rgba(240,255,244,0.94);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      transition: background 0.4s, color 0.4s;
+    }
+
+    /* ── MATRIX CANVAS ── */
+    #matrix-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      opacity: 1;
+      pointer-events: none;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.4;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: var(--header-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      transition: background 0.4s;
+    }
+    header .inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.1rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-shadow: 0 0 12px var(--glow);
+    }
+    nav { display: flex; align-items: center; gap: 2rem; }
+    nav a {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      position: relative;
+    }
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px; left: 0; right: 0;
+      height: 1px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform 0.25s;
+    }
+    nav a:hover { color: var(--accent); }
+    nav a:hover::after { transform: scaleX(1); }
+
+    /* Theme Toggle */
+    .theme-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--accent);
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      letter-spacing: 0.1em;
+      transition: all 0.2s;
+      clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+    }
+    .theme-btn:hover {
+      background: var(--accent);
+      color: var(--bg);
+      box-shadow: 0 0 18px var(--glow);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 5rem;
+    }
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .hero-badge {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--accent);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.2s forwards;
+    }
+    .hero-badge::before { content: '> '; }
+    .hero-name {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      line-height: 1.05;
+      color: var(--accent);
+      text-shadow: 0 0 30px var(--glow), 0 0 60px var(--glow2);
+      letter-spacing: 0.06em;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.35s forwards;
+    }
+    .hero-title {
+      font-family: 'Exo 2', sans-serif;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: var(--text-dim);
+      letter-spacing: 0.08em;
+      margin-top: 0.75rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+    }
+    .hero-desc {
+      margin-top: 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.65s forwards;
+    }
+    .hero-ctas {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.8s forwards;
+    }
+    .btn-primary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.8rem;
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: all 0.2s;
+      font-weight: 600;
+    }
+    .btn-primary:hover {
+      background: var(--accent2);
+      box-shadow: 0 0 24px var(--glow);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.75rem 1.8rem;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: var(--surface2);
+      border-color: var(--accent);
+      box-shadow: 0 0 18px var(--glow2);
+    }
+
+    /* Hero right — terminal card */
+    .terminal-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      position: relative;
+      opacity: 0;
+      animation: fadeUp 0.6s 0.5s forwards;
+      box-shadow: 0 0 40px var(--glow2), inset 0 0 30px rgba(0,255,80,0.02);
+    }
+    .terminal-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .terminal-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 1.2rem;
+    }
+    .t-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .t-dot:nth-child(1) { background: #ff5f57; }
+    .t-dot:nth-child(2) { background: #febc2e; }
+    .t-dot:nth-child(3) { background: #28c840; }
+    .terminal-line {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      line-height: 2;
+    }
+    .terminal-line .cmd { color: var(--accent); }
+    .terminal-line .val { color: var(--text); }
+    .terminal-line .comment { color: #3d7a50; }
+    .cursor-blink {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--accent);
+      margin-left: 3px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    /* ── SECTIONS ── */
+    section { padding: 7rem 0; position: relative; z-index: 2; }
+    .section-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .section-label::before { content: '// '; }
+    .section-title {
+      font-family: 'Orbitron', monospace;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      color: var(--text);
+      letter-spacing: 0.06em;
+      margin-bottom: 3rem;
+    }
+    .section-divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+      margin-bottom: 1rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--text-dim);
+    }
+    .about-text p + p { margin-top: 1rem; }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.4rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, var(--accent), transparent);
+    }
+    .stat-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--glow2);
+    }
+    .stat-num {
+      font-family: 'Orbitron', monospace;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent);
+      text-shadow: 0 0 12px var(--glow);
+    }
+    .stat-label {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+      margin-top: 0.3rem;
+    }
+
+    /* ── EXPERIENCE ── */
+    .exp-list { display: flex; flex-direction: column; gap: 2rem; }
+    .exp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+      position: relative;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 3px; height: 100%;
+      background: var(--accent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .exp-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 30px var(--glow2);
+      transform: translateX(4px);
+    }
+    .exp-card:hover::before { opacity: 1; }
+    .exp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+    .exp-role {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.05em;
+    }
+    .exp-period {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      background: var(--surface2);
+      padding: 0.25rem 0.75rem;
+      border: 1px solid var(--border);
+    }
+    .exp-company {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      margin-bottom: 1.2rem;
+    }
+    .exp-company span {
+      color: var(--text-dim);
+      margin-left: 0.5rem;
+    }
+    .exp-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .exp-points li {
+      font-size: 0.87rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+    .exp-points li::before {
+      content: '▸';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-size: 0.7rem;
+      top: 0.12em;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .skill-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      position: relative;
+      transition: box-shadow 0.2s;
+    }
+    .skill-group::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .skill-group:hover {
+      box-shadow: 0 0 25px var(--glow2);
+    }
+    .skill-group:hover::after { opacity: 1; }
+    .skill-group-title {
+      font-family: 'Orbitron', monospace;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 1.2rem;
+    }
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .skill-tag {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-tag:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--surface2);
+      box-shadow: 0 0 10px var(--glow2);
+    }
+    .skill-tag.highlight {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--surface2);
+    }
+
+    /* ── CONTACT ── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .contact-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--text-dim);
+    }
+    .contact-links {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.4rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--accent);
+      transform: scaleY(0);
+      transition: transform 0.2s;
+    }
+    .contact-item:hover {
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--glow2);
+      transform: translateX(4px);
+    }
+    .contact-item:hover::before { transform: scaleY(1); }
+    .contact-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+      min-width: 70px;
+    }
+    .contact-val {
+      font-size: 0.88rem;
+      color: var(--text-dim);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 0;
+      position: relative;
+      z-index: 2;
+    }
+    footer .inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    footer p {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+    footer span { color: var(--accent); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* scroll reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .hero-inner, .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      nav a { display: none; }
+      .hero-name { font-size: 2rem; }
+      .about-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="matrix-bg"></canvas>
+
+<!-- HEADER -->
+<header>
+  <div class="inner">
+    <div class="logo">RK.DEV</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-btn" id="themeToggle">☀ Light</button>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-badge">Angular Developer // Frontend Specialist</div>
+        <h1 class="hero-name">RUPESH<br>KADAM</h1>
+        <div class="hero-title">Team Lead · 6+ Years Experience</div>
+        <p class="hero-desc">
+          Building performant, accessible, and scalable web applications with Angular.
+          Specialized in enterprise-grade frontends, real-time systems, and seamless API integration.
+        </p>
+        <div class="hero-ctas">
+          <a href="#experience" class="btn-primary">View Work</a>
+          <a href="#contact" class="btn-secondary">Get In Touch</a>
+        </div>
+      </div>
+      <div class="terminal-card">
+        <div class="terminal-bar">
+          <span class="t-dot"></span>
+          <span class="t-dot"></span>
+          <span class="t-dot"></span>
+        </div>
+        <div class="terminal-line"><span class="cmd">$</span> <span class="val">rupesh --info</span></div>
+        <div class="terminal-line"><span class="comment">// loading profile...</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="cmd">role</span>  <span class="val">: Team Lead, Angular Developer</span></div>
+        <div class="terminal-line"><span class="cmd">exp   </span><span class="val">: 6+ years</span></div>
+        <div class="terminal-line"><span class="cmd">stack </span><span class="val">: Angular v8+, TypeScript, RxJS</span></div>
+        <div class="terminal-line"><span class="cmd">client</span><span class="val">: LIC India, Primetime, Repicture</span></div>
+        <div class="terminal-line"><span class="cmd">edu   </span><span class="val">: B.E. Electronics, Terna Engg. College</span></div>
+        <div class="terminal-line"><span class="cmd">city  </span><span class="val">: Mumbai, Maharashtra, India</span></div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="cmd">$</span> <span class="val">status</span></div>
+        <div class="terminal-line"><span class="comment">// available for opportunities</span> <span class="cursor-blink"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">About</div>
+      <div class="section-divider"></div>
+      <h2 class="section-title">WHO I AM</h2>
+    </div>
+    <div class="about-grid reveal">
+      <div class="about-text">
+        <p>
+          I'm a frontend-focused engineer from Mumbai with over 6 years of experience turning complex requirements into clean, performant Angular applications. I've led teams, shipped production apps for major clients like LIC India, and built e-commerce platforms generating consistent monthly revenue.
+        </p>
+        <p>
+          My approach blends engineering rigour with UX awareness — from implementing RSA encryption and WCAG accessibility standards to optimizing bundle sizes with lazy loading and AOT compilation. I care deeply about the details that make applications feel fast and reliable.
+        </p>
+        <p>
+          Beyond Angular, I've built iOS apps in Swift, integrated payment systems with Stripe, set up real-time chat with WebSockets, and worked across the stack with Node.js and Django REST.
+        </p>
+      </div>
+      <div class="about-stats">
+        <div class="stat-card">
+          <div class="stat-num">6+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">5+</div>
+          <div class="stat-label">Major Clients</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">$12K</div>
+          <div class="stat-label">Monthly Rev. Generated</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Platforms Shipped</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Experience</div>
+      <div class="section-divider"></div>
+      <h2 class="section-title">WORK HISTORY</h2>
+    </div>
+    <div class="exp-list">
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-role">Team Lead — Frontend Developer</div>
+          <div class="exp-period">Mar 2024 – Sept 2025</div>
+        </div>
+        <div class="exp-company">Intellect Design Arena <span>// Client: LIC India</span></div>
+        <ul class="exp-points">
+          <li>Developed dynamic and responsive web applications using Angular for LIC India's enterprise platform.</li>
+          <li>Implemented RSA encryption for secure data transmission, significantly improving application security posture.</li>
+          <li>Ensured full WCAG compliance for accessibility standards, improving inclusivity for all users.</li>
+          <li>Optimized performance via lazy-loaded modules and code splitting, reducing initial load times.</li>
+          <li>Built reusable, modular Angular components to promote maintainability across the codebase.</li>
+          <li>Used Angular route guards to manage authentication and authorization across the application.</li>
+        </ul>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-header">
+          <div class="exp-role">Angular Developer</div>
+          <div class="exp-period">Jul 2019 – Feb 2024</div>
+        </div>
+        <div class="exp-company">Analogy Plus <span>// Clients: Repicture, Primetime, Your College Concierge</span></div>
+        <ul class="exp-points">
+          <li>Built a custom e-commerce platform (Primetime) with Angular Material and an Admin panel — helping the client generate $8K–$12K in monthly revenue.</li>
+          <li>Integrated Stripe payment gateway for secure transactions across Career Accelerator and e-commerce platforms.</li>
+          <li>Developed real-time chat features using MessageKit and Firebase push notifications for enhanced engagement.</li>
+          <li>Implemented lazy loading and AOT compilation to optimize performance and reduce initial load time.</li>
+          <li>Collaborated on and contributed to a polished iOS application (Swift), integrating Alamofire for backend calls.</li>
+          <li>Handled state management with RxJS and services; designed optimization strategies to improve app performance.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Skills</div>
+      <div class="section-divider"></div>
+      <h2 class="section-title">TECH STACK</h2>
+    </div>
+    <div class="skills-grid reveal">
+      <div class="skill-group">
+        <div class="skill-group-title">// Frontend</div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">Angular v8+</span>
+          <span class="skill-tag highlight">TypeScript</span>
+          <span class="skill-tag highlight">RxJS</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">SCSS / CSS</span>
+          <span class="skill-tag">Tailwind CSS</span>
+          <span class="skill-tag">Angular Material</span>
+          <span class="skill-tag">State Management</span>
+          <span class="skill-tag">Lazy Loading</span>
+          <span class="skill-tag">AOT Compilation</span>
+          <span class="skill-tag">WCAG</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">// APIs & Real-Time</div>
+        <div class="skill-tags">
+          <span class="skill-tag highlight">RESTful APIs</span>
+          <span class="skill-tag highlight">WebSockets</span>
+          <span class="skill-tag">Stripe Integration</span>
+          <span class="skill-tag">Firebase</span>
+          <span class="skill-tag">RSA Encryption</span>
+          <span class="skill-tag">Alamofire</span>
+          <span class="skill-tag">MessageKit</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">// Backend & Mobile</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Django REST</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">iOS (Swift)</span>
+          <span class="skill-tag">Xcode</span>
+        </div>
+      </div>
+      <div class="skill-group">
+        <div class="skill-group-title">// Tools & Platforms</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Bitbucket</span>
+          <span class="skill-tag">SVN</span>
+          <span class="skill-tag">Jira</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="reveal">
+      <div class="section-label">Contact</div>
+      <div class="section-divider"></div>
+      <h2 class="section-title">GET IN TOUCH</h2>
+    </div>
+    <div class="contact-grid reveal">
+      <div class="contact-text">
+        <p>
+          I'm currently open to new opportunities — full-time roles, freelance projects, or consultations. Whether you need an Angular specialist, a team lead, or someone to architect a scalable frontend from scratch, let's connect.
+        </p>
+        <br>
+        <p>Based in Mumbai, Maharashtra, India. Open to remote work globally.</p>
+      </div>
+      <div class="contact-links">
+        <a href="tel:+919773377096" class="contact-item">
+          <span class="contact-icon">[ PHONE ]</span>
+          <span class="contact-val">+91 97733 77096</span>
+        </a>
+        <a href="mailto:rupeshwork45@gmail.com" class="contact-item">
+          <span class="contact-icon">[ EMAIL ]</span>
+          <span class="contact-val">rupeshwork45@gmail.com</span>
+        </a>
+        <a href="https://www.linkedin.com/in/rupesh-kadam-a04206165/" target="_blank" class="contact-item">
+          <span class="contact-icon">[ LINKEDIN ]</span>
+          <span class="contact-val">rupesh-kadam-a04206165</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="inner">
+    <p>© 2026 <span>Rupesh Kadam</span>. All rights reserved.</p>
+    <p>Built with <span>HTML · SCSS · JS</span></p>
+  </div>
+</footer>
+
+<script>
+  /* ── MATRIX RAIN ── */
+  const canvas = document.getElementById('matrix-bg');
+  const ctx = canvas.getContext('2d');
+  let W, H, cols, drops;
+  const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&';
+
+  function initMatrix() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols = Math.floor(W / 18);
+    drops = Array(cols).fill(1);
+  }
+
+  function getMatrixColor() {
+    return document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'rgba(0,100,30,0.85)'
+      : 'rgba(0,255,80,0.85)';
+  }
+  function getBgClear() {
+    return document.documentElement.getAttribute('data-theme') === 'light'
+      ? 'rgba(240,255,244,0.06)'
+      : 'rgba(2,12,6,0.06)';
+  }
+
+  function drawMatrix() {
+    ctx.fillStyle = getBgClear();
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = getMatrixColor();
+    ctx.font = '14px Share Tech Mono';
+    drops.forEach((y, i) => {
+      const ch = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(ch, i * 18, y * 18);
+      if (y * 18 > H && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    });
+  }
+
+  initMatrix();
+  window.addEventListener('resize', initMatrix);
+  setInterval(drawMatrix, 45);
+
+  /* ── THEME TOGGLE ── */
+  const toggleBtn = document.getElementById('themeToggle');
+  toggleBtn.addEventListener('click', () => {
+    const root = document.documentElement;
+    const isLight = root.getAttribute('data-theme') === 'light';
+    root.setAttribute('data-theme', isLight ? 'dark' : 'light');
+    toggleBtn.textContent = isLight ? '☀ Light' : '🌙 Dark';
+  });
+
+  /* ── SCROLL REVEAL ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

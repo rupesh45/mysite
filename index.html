@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rupesh Kadam — Angular Developer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  <link rel="stylesheet" href="style2.css"/>
+</head>
+<body>
+<canvas id="matrix-bg"></canvas>
+  <!-- ░░ HEADER BAR ░░ -->
+  <div class="topbar">
+    <span class="topbar-name">rupesh@portfolio:~$</span>
+    <div class="topbar-right">
+      <span class="topbar-status"><i class="fa-solid fa-circle"></i> available for hire</span>
+      <button id="themeToggle" class="theme-toggle">
+        <i class="fa-solid fa-sun" id="themeIcon"></i>
+        <span id="themeLabel">Light</span>
+      </button>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ░░ SECTION: WELCOME ░░ -->
+    <section class="card" id="welcome">
+      <div class="card-label">Welcome</div>
+      <div class="welcome-top">
+        <img src="rupesh.jpg" alt="Rupesh Kadam" class="avatar"/>
+        <div class="welcome-intro">
+          <p class="hello-line">Hello, I'm</p>
+          <h1 class="name">Rupesh Kadam</h1>
+          <p class="tagline">Frontend Developer &amp; specialised in Angular</p>
+        </div>
+      </div>
+      <p class="bio">
+        6+ years across Angular, iOS. I care about performance and clean architecture. Passionate about modern web tech and shipping reliable client solutions.
+      </p>
+      <div class="btn-row">
+        <a href="#about" class="btn">About</a>
+        <a href="#experience" class="btn">Experience</a>
+        <a href="#skills" class="btn">Skills</a>
+        <a href="#contact" class="btn">Contact</a>
+        <a href="rupeshresume2026.pdf" download class="btn btn-accent"><i class="fa-solid fa-download"></i> Resume (PDF)</a>
+      </div>
+      <div class="social-row">
+        <a href="mailto:rupeshwork45@gmail.com" title="Email"><i class="fa-solid fa-envelope"></i></a>
+        <a href="https://www.linkedin.com/in/rupesh-kadam-a04206165/" target="_blank" title="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="tel:+919773377096" title="Phone"><i class="fa-solid fa-phone"></i></a>
+      </div>
+    </section>
+
+    <!-- ░░ SECTION: AT A GLANCE ░░ -->
+    <section class="card" id="glance">
+      <div class="card-label">At a glance</div>
+      <div class="glance-grid">
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-id-badge"></i> Role</span>
+          <span class="gi-val">Frontend Developer — Team Lead</span>
+        </div>
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-clock"></i> Experience</span>
+          <span class="gi-val">6+ years</span>
+        </div>
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-briefcase"></i> Current / Last</span>
+          <span class="gi-val">Intellect Design Arena — LIC India platform</span>
+        </div>
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-code"></i> Core Stack</span>
+          <span class="gi-val">Angular, RxJS, State management, Performance Optimization</span>
+        </div>
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-graduation-cap"></i> Education</span>
+          <span class="gi-val">B.E. Electronics — University of Mumbai, 2018</span>
+        </div>
+        <div class="glance-item">
+          <span class="gi-key"><i class="fa-solid fa-location-dot"></i> Location</span>
+          <span class="gi-val">Mumbai, India</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ SECTION: ABOUT ░░ -->
+    <section class="card" id="about">
+      <div class="card-label">About</div>
+      <p class="body-text">
+        I'm a Mumbai based frontend engineer with 6+ years of experience delivering Angular applications at scale. I've held a Team Lead role, managing both architecture decisions and hands on development for enterprise clients like LIC India, Primetime and Repicture.
+      </p>
+      <p class="body-text">
+        I focus on scalable Angular architecture, implementing modular component design, efficient state management with RxJS, and optimized data flows. I improve application performance using lazy loading, code splitting, and optimized change detection, ensuring applications remain fast, maintainable, and scalable as they grow.
+      </p>
+      <p class="body-text">
+        I also have broad experience: building iOS apps in Swift, integrating Stripe payments, creating real-time chat with WebSockets, and working with Node.js and Django REST backends.
+      </p>
+
+      <div class="stats-row">
+        <div class="stat">
+          <span class="stat-n">6+</span>
+          <span class="stat-l">Years</span>
+        </div>
+        <!-- <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-n">5+</span>
+          <span class="stat-l">Clients</span>
+        </div> -->
+        <!-- <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-n">$12K</span>
+          <span class="stat-l">Monthly Rev.</span>
+        </div>
+        <div class="stat-div"></div>
+        <div class="stat">
+          <span class="stat-n">2</span>
+          <span class="stat-l">Platforms</span>
+        </div> -->
+      </div>
+    </section>
+
+    <!-- ░░ SECTION: EXPERIENCE ░░ -->
+    <section class="card" id="experience">
+      <div class="card-label">Experience</div>
+
+      <div class="exp-block">
+        <div class="exp-header">
+          <div>
+            <p class="exp-role">Frontend Developer — Team Lead</p>
+            <p class="exp-company"><i class="fa-solid fa-building"></i> Intellect Design Arena <span>// Client: LIC India</span></p>
+          </div>
+          <span class="exp-period">Mar 2024 – Sept 2025</span>
+        </div>
+        <ul class="exp-list">
+          <li>Built dynamic, responsive Angular apps for LIC India's national enterprise platform.</li>
+          <li>Implemented RSA encryption for secure client-server data transmission.</li>
+          <li>Enforced WCAG compliance to improve accessibility across millions of users.</li>
+          <li>Cut initial load time via lazy-loaded modules and route level code splitting.</li>
+          <li>Created a reusable, modular component library adopted across the team.</li>
+          <li>Managed authentication and authorisation using Angular route guards.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag"><i class="fa-brands fa-angular"></i> Angular</span>
+          <span class="tag">TypeScript</span>
+          <span class="tag">RxJS</span>
+          <span class="tag">RSA Encryption</span>
+          <span class="tag">WCAG</span>
+          <span class="tag">Lazy Loading</span>
+          <span class="tag">Route Guards</span>
+        </div>
+      </div>
+
+      <div class="exp-divider"></div>
+
+      <div class="exp-block">
+        <div class="exp-header">
+          <div>
+            <p class="exp-role">Angular Developer</p>
+            <p class="exp-company"><i class="fa-solid fa-building"></i> Analogy Plus <span>// Repicture · Primetime · Your College Concierge</span></p>
+          </div>
+          <span class="exp-period">Jul 2019 – Feb 2024</span>
+        </div>
+        <ul class="exp-list">
+          <li>Built Primetime — a full e-commerce platform with Angular Material + admin panel, generating $8K–$12K monthly revenue for the client.</li>
+          <li>Integrated Stripe for secure payments across e-commerce and Career Accelerator platforms.</li>
+          <li>Developed real-time chat with MessageKit and Firebase push notifications.</li>
+          <li>Applied AOT compilation and lazy loading to reduce bundle size and improve load time.</li>
+          <li>Collaborated on an iOS app (Swift + Alamofire) from ideation to App Store launch.</li>
+          <li>State management via RxJS and services, with targeted performance tuning strategies.</li>
+        </ul>
+        <div class="tag-row">
+          <span class="tag"><i class="fa-brands fa-angular"></i> Angular Material</span>
+          <span class="tag"><i class="fa-brands fa-stripe"></i> Stripe</span>
+          <span class="tag">Firebase</span>
+          <span class="tag"><i class="fa-brands fa-apple"></i> Swift</span>
+          <span class="tag">WebSockets</span>
+          <span class="tag">RxJS</span>
+          <span class="tag">AOT</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ░░ SECTION: SKILLS ░░ -->
+    <section class="card" id="skills">
+      <div class="card-label">Skills</div>
+      <div class="skills-grid">
+
+        <div class="skill-group">
+          <p class="sg-title"><i class="fa-solid fa-laptop-code"></i> Frontend</p>
+          <div class="tag-row">
+            <span class="tag accent"><i class="fa-brands fa-angular"></i> Angular v18+</span>
+            <span class="tag accent">JavaScript</span>
+            <span class="tag accent">RxJS</span>
+            <span class="tag ">TypeScript</span>
+            <span class="tag">HTML5</span>
+            <span class="tag">SCSS / CSS</span>
+            <span class="tag">Tailwind CSS</span>
+            <span class="tag">Angular Material</span>
+            <span class="tag">State Management</span>
+            <span class="tag">Performance Optimization</span>
+            <span class="tag">WCAG</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="sg-title"><i class="fa-solid fa-plug"></i> APIs &amp; Real-Time</p>
+          <div class="tag-row">
+            <span class="tag accent">RESTful APIs</span>
+            <span class="tag accent">WebSockets</span>
+            <span class="tag"><i class="fa-brands fa-stripe"></i> Stripe</span>
+            <span class="tag"><i class="fa-brands fa-google"></i> Firebase</span>
+            <span class="tag">RSA Encryption</span>
+            <span class="tag">Push Notifications</span>
+            <span class="tag">Alamofire</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="sg-title"><i class="fa-solid fa-server"></i> Backend &amp; Mobile</p>
+          <div class="tag-row">
+            <span class="tag"><i class="fa-brands fa-node-js"></i> Node.js</span>
+            <span class="tag">Django REST</span>
+            <span class="tag"><i class="fa-brands fa-python"></i> Python</span>
+            <span class="tag"><i class="fa-brands fa-apple"></i> iOS — Swift</span>
+            <span class="tag">Xcode</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <p class="sg-title"><i class="fa-solid fa-screwdriver-wrench"></i> Tools</p>
+          <div class="tag-row">
+            <span class="tag"><i class="fa-brands fa-git-alt"></i> Git</span>
+            <span class="tag"><i class="fa-brands fa-bitbucket"></i> Bitbucket</span>
+            <span class="tag">SVN</span>
+            <span class="tag"><i class="fa-brands fa-jira"></i> Jira</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ░░ SECTION: CONTACT ░░ -->
+    <section class="card" id="contact">
+      <div class="card-label">Contact</div>
+      <p class="body-text">Open to full time roles, freelance Angular projects, and frontend consulting. Based in Mumbai — available remotely worldwide.</p>
+
+      <div class="contact-grid">
+        <a href="mailto:rupeshwork45@gmail.com" class="contact-item">
+          <i class="fa-solid fa-envelope ci-icon"></i>
+          <div>
+            <span class="ci-label">Email</span>
+            <span class="ci-val">rupeshwork45@gmail.com</span>
+          </div>
+        </a>
+        <a href="tel:+919773377096" class="contact-item">
+          <i class="fa-solid fa-phone ci-icon"></i>
+          <div>
+            <span class="ci-label">Phone</span>
+            <span class="ci-val">+91 97733 77096</span>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/rupesh-kadam-a04206165/" target="_blank" class="contact-item">
+          <i class="fa-brands fa-linkedin ci-icon"></i>
+          <div>
+            <span class="ci-label">LinkedIn</span>
+            <span class="ci-val">rupesh-kadam-a04206165</span>
+          </div>
+        </a>
+        <a href="rupeshresume2026.pdf" download class="contact-item">
+          <i class="fa-solid fa-file-pdf ci-icon"></i>
+          <div>
+            <span class="ci-label">Resume</span>
+            <span class="ci-val">Download PDF</span>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ░░ FOOTER ░░ -->
+    <div class="footer">
+      <span>© 2026 Rupesh Kadam</span>
+      <!-- <span>Built with HTML · CSS · JS</span> -->
+    </div>
+
+  </main>
+
+  <script src="main2.js"></script>
+</body>
+</html>
